@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		input{
+			width: 30px;
+		}
+	</style>
+</head>
+<body>
+	<section class="wrap">
+		<h3>倒计时</h3>
+		<div>
+			<span>target</span>
+			<input type="text" id="t-year" onfocus="clearValue(this)">
+			<span>年</span>
+			<input type="text" id="t-month" onfocus="clearValue(this)">
+			<span>月</span>			
+			<input type="text" id="t-day" onfocus="clearValue(this)">
+			<span>日</span>	
+			<input type="text" id="t-hour" onfocus="clearValue(this)">
+			<span>时</span>	
+			<input type="text" id="t-min" onfocus="clearValue(this)">
+			<span>分</span>	
+		</div>
+		<br>
+		<button onclick="calculate()">Calculate</button>
+		<br>
+		<br>
+		<div>距离目标时间还剩:</div>
+		<br>
+		<div>
+			<span class="num" id="day">-</span>
+			<span class="unit-text">天</span>
+			<span class="num" id="hour">-</span>
+			<span class="unit-text">时</span>
+			<span class="num" id="min">-</span>
+			<span class="unit-text">分</span>
+			<span class="num" id="sec">-</span>
+			<span class="unit-text">秒</span>
+			<span class="num" id="msec">-</span>
+			<span class="unit-text">毫秒</span>
+		</div>
+		
+	</section>
+	<script src=""></script>
+	<script>
+		function getById(id){
+			return document.getElementById(id);
+		}
+		function clearValue(ele){
+			ele.value = '';
+		}
+		
+		var dayEle = getById('day'),hourEle = getById('hour'),minEle = getById('min'),secEle = getById('sec'),msEle = getById('msec');
+		
+		function calculate(){
+			clearInterval(timer);
+			// let inputs = document.querySelectorAll('input');
+			
+			let y = parseInt(getById('t-year').value);
+			let mon = parseInt(getById('t-month').value - 1);
+			let d = parseInt(getById('t-day').value);
+			let h = parseInt(getById('t-hour').value);
+			let min = parseInt(getById('t-min').value);
+			
+			var timer = setInterval(function(){
+				setValue(y,mon,d,h,min);
+			},100)
+
+			// for(var i=0;i<inputs.length;i++){
+			// 	inputs[i].value = '';
+			// }
+			
+		}
+		
+		function setValue(y,mon,d,h,min){
+			var currentDate = new Date();
+		
+			var targetDate = new Date(y,mon,d,h,min);
+			var timeDiff = targetDate - currentDate;
+			/*
+			s = 1000 ms
+			min = 60*1000 ms
+			h = 60*60*1000 ms
+			d = 24*60*60*1000 ms
+			*/
+			var d = timeDiff/(24*60*60*1000);
+			var h = timeDiff%(24*60*60*1000)/(60*60*1000);
+			var m = timeDiff%(24*60*60*1000)%(60*60*1000)/(60*1000);
+			var s = timeDiff%(24*60*60*1000)%(60*60*1000)%(60*1000)/1000;
+			var ms = timeDiff%(24*60*60*1000)%(60*60*1000)%(60*1000)%1000;
+			dayEle.innerText = parseInt(d);
+			hourEle.innerText = parseInt(h);
+			minEle.innerText = parseInt(m);
+			secEle.innerText = parseInt(s);
+			msEle.innerText = parseInt(ms);
+		}
+		
+	</script>
+
+</body>
+</html>
